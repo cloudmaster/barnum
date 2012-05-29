@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 ## Generate a human readable 'random' password
 ## password  will be generated in the form 'word'+digits+'word' 
 ## eg.,nice137pass
