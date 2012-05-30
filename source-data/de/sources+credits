@@ -1,0 +1,2 @@
+last-names.txt: http://de.wikipedia.org/wiki/Liste_der_häufigsten_Familiennamen_in_Deutschland
+female-first-name.txt, male-first-name.txt: http://www.vorname.com/beliebte_vornamen,0.html
