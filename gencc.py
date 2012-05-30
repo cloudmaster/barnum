@@ -128,36 +128,37 @@ def output(title, numbers):
 # Main
 #
 if __name__ == "__main__":
+    creditcards = {
+        "Mastercard" : (mastercardPrefixList, 16),
+        "VISA 16 digit" : (visaPrefixList, 16),
+        "VISA 13 digit" : (visaPrefixList, 13),
+        "American Express" : (amexPrefixList, 15),
+        "Discover" : (discoverPrefixList, 16),
+        "Diners Club / Carte Blanche" : (dinersPrefixList, 14),
+        "enRoute" : (enRoutePrefixList, 15),
+        "JCB 15 digit" : (jcbPrefixList15, 15),
+        "JCB 16 digit" : (jcbPrefixList16, 16),
+        "Voyager" : (voyagerPrefixList, 15)
+    }
 
-    mastercard = credit_card_number(mastercardPrefixList, 16, 10)
-    print output("Mastercard", mastercard)
+    if len(sys.argv) != 2:
+        print >>sys.stderr, "Syntax: gencc list|all|random|<card>"
+        sys.exit(1)
 
-    visa16 = credit_card_number(visaPrefixList, 16, 10)
-    print output("VISA 16 digit", visa16)
+    card = sys.argv[1]
+    if sys.argv[1] == "random":
+        card = creditcards.keys()[random.randint(0, len(creditcards.keys()) - 1)]
+    elif sys.argv[1] == "list":
+        for card in creditcards.keys():
+            print card
+        sys.exit(0)
+    elif sys.argv[1] == "all":
+        for card in creditcards.keys():
+            cardparams = creditcards[card]
+            number = credit_card_number(cardparams[0], cardparams[1], random.randint(1, 3))
+            print output(card, number)
+        sys.exit(0)
 
-    visa13 = credit_card_number(visaPrefixList, 13, 5)
-    print output("VISA 13 digit", visa13)
-
-    amex = credit_card_number(amexPrefixList, 15, 5)
-    print output("American Express", amex)
-
-    # Minor cards
-
-    discover = credit_card_number(discoverPrefixList, 16, 3)
-    print output("Discover", discover)
-
-    diners = credit_card_number(dinersPrefixList, 14, 3)
-    print output("Diners Club / Carte Blanche", diners)
-
-    enRoute = credit_card_number(enRoutePrefixList, 15, 3)
-    print output("enRoute", enRoute)
-
-    jcb15 = credit_card_number(jcbPrefixList15, 15, 3)
-    print output("JCB 15 digit", jcb15)
-
-    jcb16 = credit_card_number(jcbPrefixList16, 16, 3)
-    print output("JCB 16 digit", jcb16)
-
-    voyager = credit_card_number(voyagerPrefixList, 15, 3)
-    print output("Voyager", voyager)
-
+    cardparams = creditcards[card]
+    number = credit_card_number(cardparams[0], cardparams[1], 1)
+    print number[0]
