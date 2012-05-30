@@ -2,9 +2,12 @@
 """
 This application converts the various text files stored in the source-data
 directory into a pickled python object to be used by the random data
-generator scripts
+generator scripts. The culture/language of the desired identity can be
+specified depending on the availability of source data by passing the
+language code (e.g. 'cn') as command-line parameter.
 
 Copyright (C) 2007 Chris Moffitt
+
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -25,16 +28,17 @@ import string
 import cPickle as pickle
 import random
 import os
+import sys
 
 data_dir = "source-data"
 simple_files_to_process = ['street-names.txt', 'street-types.txt', 'latin-words.txt',
                             'email-domains.txt', 'job-titles.txt', 'company-names.txt',
-                            'company-types.txt','nounlist.txt']
+                            'company-types.txt', 'nounlist.txt']
 
-def load_files():
+def load_files(culture):
     # Process Zip Codes
     all_zips = {}
-    reader = csv.reader(open(os.path.join(data_dir,"zip-codes.txt"), "rb"))
+    reader = csv.reader(open(os.path.join(data_dir, culture, "zip-codes.txt"), "rb"))
     for row in reader:
         data = [string.capwords(row[3]), row[4]]
         all_zips[row[0]] = data
@@ -42,7 +46,7 @@ def load_files():
     pickle.dump(all_zips, output)
 
     #Process area codes
-    area_code_file = open(os.path.join(data_dir,"area-codes.txt"), "rb")
+    area_code_file = open(os.path.join(data_dir, culture, "area-codes.txt"), "rb")
     state_area_codes = {}
     for line in area_code_file:
         clean_line = line.replace(' ','').rstrip('\n')
@@ -52,7 +56,7 @@ def load_files():
 
     #Process Last Names
     last_names = []
-    last_name_file = open(os.path.join(data_dir,"last-name.txt"),"rb")
+    last_name_file = open(os.path.join(data_dir, culture, "last-name.txt"),"rb")
     for line in last_name_file:
         clean_line = line.rstrip('\n')
         last_names.append(string.capwords(clean_line.split(' ')[0]))
@@ -61,7 +65,7 @@ def load_files():
 
     #Process Male First Names
     male_first_names = []
-    male_first_name_file = open(os.path.join(data_dir,"male-first-name.txt"),"rb")
+    male_first_name_file = open(os.path.join(data_dir, culture, "male-first-name.txt"),"rb")
     for line in male_first_name_file:
         clean_line = line.rstrip('\n')
         male_first_names.append(string.capwords(clean_line.split(' ')[0]))
@@ -70,7 +74,7 @@ def load_files():
 
     #Process Female First Names
     female_first_names = []
-    female_first_name_file = open(os.path.join(data_dir,"female-first-name.txt"),"rb")
+    female_first_name_file = open(os.path.join(data_dir, culture, "female-first-name.txt"),"rb")
     for line in female_first_name_file:
         clean_line = line.rstrip('\n')
         female_first_names.append(string.capwords(clean_line.split(' ')[0]))
@@ -80,7 +84,10 @@ def load_files():
     #Process the simple files
     for f in simple_files_to_process:
         temp = []
-        sample_file = open(os.path.join(data_dir, f), "rb")
+        if f == "email-domains.txt":
+            sample_file = open(os.path.join(data_dir, f), "rb")
+        else:
+            sample_file = open(os.path.join(data_dir, culture, f), "rb")
         for line in sample_file:
             clean_line = line.rstrip('\n')
             temp.append(clean_line)
@@ -90,7 +97,12 @@ def load_files():
     output.close()
 
 if __name__ == "__main__":
-    response = string.lower(raw_input("Type 'yes' to reload the data from source files and create a new pickle file: "))
-    if response == 'yes':
-        load_files()
+    culture = "en"
+    if len(sys.argv) >= 2:
+        if os.path.exists(os.path.join(data_dir, sys.argv[1])):
+            culture = sys.argv[1]
+        else:
+            print >>sys.stderr, "Error: Culture '%s' not found." % sys.argv[1]
+            sys.exit(1)
+    load_files(culture)
 
