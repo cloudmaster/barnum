@@ -1,3 +1,4 @@
 last-names.txt: http://de.wikipedia.org/wiki/Liste_der_häufigsten_Familiennamen_in_Deutschland
 female-first-name.txt, male-first-name.txt: http://www.vorname.com/beliebte_vornamen,0.html
 nounlist.txt: http://wortschatz.uni-leipzig.de/Papers/top1000de.txt (filtered for capital initial letter)
+street-names.txt: http://blog.christianleberfinger.de/?p=17 (derived)
