@@ -1,0 +1,8 @@
+straße
+weg
+allee
+ufer
+gasse
+platz
+Landstraße
+Chaussee
