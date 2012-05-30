@@ -33,11 +33,15 @@ try:
 except NameError:
     DIRNAME = os.path.dirname(sys.argv[0])
 
-gender_options=('Male','Female')
+gender_options=('Male', 'Female')
 company_type = ('LawFirm', 'Generic', 'Short')
 card_types = ('mastercard', 'visa', 'discover', 'amex')
 
-source_file = open(os.path.join(DIRNAME,"source-data.pkl"),'rb')
+try:
+    source_file = open(os.path.join(DIRNAME, "source-data.pkl"),'rb')
+except:
+    print >>sys.stderr, "Error: Data archive source-data.pkl doesn't exist. Run convert_data.py first."
+    sys.exit(1)
 all_zips = pickle.load(source_file)
 state_area_codes = pickle.load(source_file)
 last_names = pickle.load(source_file)
