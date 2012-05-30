@@ -84,7 +84,7 @@ def load_files(culture):
     #Process the simple files
     for f in simple_files_to_process:
         temp = []
-        if f == "email-domains.txt":
+        if f == "email-domains.txt" or f == "latin-words.txt":
             sample_file = open(os.path.join(data_dir, f), "rb")
         else:
             sample_file = open(os.path.join(data_dir, culture, f), "rb")

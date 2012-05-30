@@ -68,7 +68,7 @@ def create_name(full_name=True, gender=None):
 
 def create_job_title():
     return random.choice(job_titles)
- 
+
 def create_phone(zip_code=None):
     if not zip_code:
         zip_code = random.choice(all_zips.keys())
