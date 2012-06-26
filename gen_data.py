@@ -81,10 +81,15 @@ def create_phone(zip_code=None):
     return(output)
 
 def create_street():
+    flavour = "german"
     number = random.randint(1, 9999)
     name = string.capwords(random.choice(street_names))
-    street_type = string.capwords(random.choice(street_types))
-    return("%s %s %s" % (number, name, street_type))
+    if flavour == "german":
+        street_type = random.choice(street_types)
+        return("%s%s %s" % (name, street_type, number))
+    else:
+        street_type = string.capwords(random.choice(street_types))
+        return("%s %s %s" % (number, name, street_type))
 
 def create_city_state_zip(zip_code=None):
     if not zip_code:
