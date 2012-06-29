@@ -29,19 +29,20 @@ X-JABBER;TYPE=HOME:%s
 ADR;TYPE=HOME:;;%s;%s;%s;%s;USA
 END:VCARD"""
 
-		s = vcard % (' '.join(vc.name),
-			vc.name[1], vc.name[0],
-			vc.company, vc.birthday,
-			vc.email, vc.email, vc.street,
-			vc.adr[1], vc.adr[2], vc.adr[0])
+		s = vcard % (' '.join(self.name),
+			self.name[1], self.name[0],
+			self.company, self.birthday,
+			self.email, self.email, self.street,
+			self.adr[1], self.adr[2], self.adr[0])
 		return s
 
-for i in range(0, count):
-	vc = Vcard()
-	vc.name = gen_data.create_name()
-	vc.adr = gen_data.create_city_state_zip()
-	vc.company = gen_data.create_company_name()
-	vc.birthday = gen_data.create_birthday()
-	vc.email = gen_data.create_email(name=vc.name)
-	vc.street = gen_data.create_street()
-	print vc.printout()
+if __name__ == "__main__":
+	for i in range(0, count):
+		vc = Vcard()
+		vc.name = gen_data.create_name()
+		vc.adr = gen_data.create_city_state_zip()
+		vc.company = gen_data.create_company_name()
+		vc.birthday = gen_data.create_birthday()
+		vc.email = gen_data.create_email(name=vc.name)
+		vc.street = gen_data.create_street()
+		print vc.printout()
